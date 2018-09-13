@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:3.7
 
 LABEL maintainer="git@voronenko.info"
 LABEL version="2.4.0"
