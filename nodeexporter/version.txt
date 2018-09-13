@@ -1,0 +1,3 @@
+repository=nanoobserver
+release=2018-09-14
+prefix=nodeexporter
