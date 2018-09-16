@@ -1,0 +1,23 @@
+language: bash
+services: docker
+sudo: required
+
+env:
+  global:
+    - REGISTRY=voronenko
+  matrix:
+    - IMAGE=alertmanager ARCH=amd64
+    - IMAGE=grafana ARCH=amd64
+    - IMAGE=m3coordinator ARCH=amd64
+    - IMAGE=m3dbnode ARCH=amd64
+    - IMAGE=m3query ARCH=amd64
+    - IMAGE=nodeexporter ARCH=amd64
+    - IMAGE=prometheus ARCH=amd64    
+
+install:
+  - echo "depndenciesif any"
+
+script:
+# Build
+  - cd ${IMAGE} && make build
+
