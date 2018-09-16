@@ -39,3 +39,6 @@ docker-build: version.txt
 docker-push:
 	docker push $(IMAGE):$(VERSIONPREFIX).$(VERSION)
 	docker push $(IMAGE):$(VERSIONPREFIX).latest
+
+get-quemu:
+	curl --retry 3 -L -o qemu-arm-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/v2.6.0/qemu-arm-static.tar.gz && tar zx -f qemu-arm-static.tar.gz -C .

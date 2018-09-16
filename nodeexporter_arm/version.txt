@@ -1,0 +1,3 @@
+repository=nanoobserver
+release=20180914
+prefix=nodeexporter_arm6

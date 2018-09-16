@@ -13,11 +13,17 @@ env:
     - IMAGE=m3query ARCH=amd64
     - IMAGE=nodeexporter ARCH=amd64
     - IMAGE=prometheus ARCH=amd64    
-
+    - IMAGE=pushgateway ARCH=amd64
+    - IMAGE=blackboxexporter_arm ARCH=armv6
+    - IMAGE=nodeexporter_arm ARCH=armv6
+    - IMAGE=pushgateway_arm ARCH=armv6
+    
 install:
-  - echo "depndenciesif any"
+  - echo "depndencies, if any"
+  - docker run --rm --privileged multiarch/qemu-user-static:register
 
 script:
 # Build
+  - curl --retry 3 -L -o qemu-arm-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/v2.6.0/qemu-arm-static.tar.gz && tar zx -f qemu-arm-static.tar.gz -C ${IMAGE}
   - cd ${IMAGE} && make build
 
