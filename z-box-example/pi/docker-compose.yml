@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+
+  node-exporter:
+    image: voronenko/nanoobserver:nodeexporter_arm6.20180914
+    volumes:
+      - /proc:/usr/proc
+      - /sys:/usr/sys
+      - /:/rootfs
+    ports:
+      - 9100:9100
+
+  openhab-exporter:
+    image: voronenko/nanoobserver:openhab_dirtyexporter_arm6.20180914
+    ports:
+      - 9266:9266
