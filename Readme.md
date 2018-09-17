@@ -43,6 +43,15 @@ sudo pip install docker-compose
 ```
 
 
+## Perversions
+
+If , for _some_ reason your prometheus server is not in one network with monitored sites (which generally is NOT recommended), there are still hakish way to accomplish polling.
+In order to do so, you need push gateway on prometheus site, and series of regular cron jobs, kind of 
+
+```sh
+curl -s http://localhost:9100/metrics | curl --data-binary @- http://pushgateway.example.org:9091/metrics/job/some_job/instance/some_instance
+```
+
 P.S.
 
 Thirdparty ideas used:
@@ -52,3 +61,5 @@ Thirdparty ideas used:
 -  https://github.com/m3db/m3 - m3 family Dockerfiles
 
 -  https://github.com/napnap75/rpi-prometheus  - openhabian/rpi slave images
+
+-  https://github.com/KuguHome/openhab-prometheus-metrics - prometheus compatible metrics from openhabian
