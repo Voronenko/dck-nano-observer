@@ -13,5 +13,6 @@ services:
 
   openhab-exporter:
     image: voronenko/nanoobserver:openhab_dirtyexporter_arm6.20180914
+    network_mode: "host"
     ports:
       - 9266:9266
