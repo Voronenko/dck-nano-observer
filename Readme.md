@@ -63,3 +63,7 @@ Thirdparty ideas used:
 -  https://github.com/napnap75/rpi-prometheus  - openhabian/rpi slave images
 
 -  https://github.com/KuguHome/openhab-prometheus-metrics - prometheus compatible metrics from openhabian
+
+Temporary:
+
+- https://hub.docker.com/r/jcollie/openhab-exporter/
