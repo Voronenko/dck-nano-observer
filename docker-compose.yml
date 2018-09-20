@@ -29,6 +29,18 @@ services:
     ports:
       - 9093:9093
 
+  grafana:
+    image: voronenko/nanoobserver:grafana.20180914
+    volumes:
+      - grafana_data:/grafana/data/grafana.db
+    env_file:
+      - grafana.config
+    networks:
+      - internal
+    ports:
+      - 3000:3000
+
+
   cadvisor:
     image: google/cadvisor
     hostname: '{{.Node.ID}}'
@@ -48,3 +60,4 @@ networks:
 
 volumes:
     prometheus_data:
+    grafana_data	
