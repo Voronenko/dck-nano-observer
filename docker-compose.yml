@@ -32,7 +32,7 @@ services:
   grafana:
     image: voronenko/nanoobserver:grafana.20180914
     volumes:
-      - grafana_data:/grafana/data/grafana.db
+      - grafana_data:/var/lib/grafana/data/grafana.db
     env_file:
       - grafana.config
     networks:
