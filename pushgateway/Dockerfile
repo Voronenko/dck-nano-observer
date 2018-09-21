@@ -16,4 +16,4 @@ COPY --from=building /tmp/pushgateway /usr/local/bin/
 EXPOSE     9091
 RUN mkdir -p /pushgateway
 WORKDIR    /pushgateway
-ENTRYPOINT [ "/bin/pushgateway" ]
+ENTRYPOINT [ "/usr/local/bin/pushgateway" ]

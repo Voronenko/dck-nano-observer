@@ -22,12 +22,25 @@ services:
     labels:
       - "traefik.frontend.rule=Host:traefik.docker.localhost"
 
+  pushgateway:
+    image: voronenko/nanoobserver:pushgateway.20180914
+    networks:
+      - internal
+    ports:
+      - 9091:9091
+    labels:
+      - "traefik.frontend.rule=Host:push.docker.localhost"
+
+
   alertmanager:
     image: voronenko/nanoobserver:alertmanager.20180914
+    volumes:    
+       - /etc/localtime:/etc/localtime:ro
     networks:
       - internal
     ports:
       - 9093:9093
+      - 9094:9094
 
   grafana:
     image: voronenko/nanoobserver:grafana.20180914
@@ -39,7 +52,6 @@ services:
       - internal
     ports:
       - 3000:3000
-
 
   cadvisor:
     image: google/cadvisor

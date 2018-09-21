@@ -7,4 +7,4 @@ receivers:
     - name: 'webhook'
       webhook_configs:
           - send_resolved: false
-            url: '${WEBHOOK_URL}'
+            url: 'https://httpbin.org/'
