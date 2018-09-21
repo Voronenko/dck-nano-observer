@@ -5,9 +5,16 @@ LABEL version="2.4.0"
 
 ARG PROMETHEUS_VERSION=2.4.0
 
+ARG PROM_UID="473"
+ARG PROM_GID="473"
+
+ARG NODE_UID="474"
+ARG NODE_GID="474"
+
+
 RUN set -xe && \
-    adduser -s /bin/false -D -H prometheus && \
-    adduser -s /bin/false -D -H node_exporter && \
+    adduser -s /bin/false -D -H prometheus -u $PROM_UID && \
+    adduser -s /bin/false -D -H node_exporter -u $NODE_UID && \
     wget https://github.com/prometheus/prometheus/releases/download/v${PROMETHEUS_VERSION}/prometheus-${PROMETHEUS_VERSION}.linux-amd64.tar.gz && \
     wget https://github.com/prometheus/prometheus/releases/download/v${PROMETHEUS_VERSION}/sha256sums.txt && \
     grep prometheus-${PROMETHEUS_VERSION}.linux-amd64.tar.gz sha256sums.txt | sha256sum -c -- && \
@@ -32,10 +39,10 @@ ADD conf/alert.rules /etc/prometheus/
 
 USER prometheus
 
-ENTRYPOINT /usr/local/bin/prometheus \
-            --config.file /etc/prometheus/prometheus.yml \
-            --storage.tsdb.path /var/lib/prometheus/ \
-            --web.console.libraries=/usr/share/prometheus/console_libraries \
-            --web.console.templates=/usr/share/prometheus/consoles
+ENTRYPOINT /usr/local/bin/prometheus \ 
+    --config.file /etc/prometheus/prometheus.yml \ 
+    --storage.tsdb.path /var/lib/prometheus/ \
+    --web.console.libraries=/etc/prometheus/console_libraries \
+    --web.console.templates=/etc/prometheus/consoles
 
 EXPOSE 9090

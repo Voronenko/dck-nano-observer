@@ -17,7 +17,8 @@ ENV PATH=/opt/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbi
     GF_PATHS_PROVISIONING="/etc/grafana/provisioning"
 
 RUN apk update \
-    && apk add openssl curl shadow \
+    && apk add openssl bash curl shadow \
+    && apk add --no-cache ca-certificates \
     && groupadd -r -g $GF_GID grafana \
     && useradd -r -u $GF_UID -g grafana grafana \
     && mkdir -p "$GF_PATHS_PROVISIONING/datasources" \

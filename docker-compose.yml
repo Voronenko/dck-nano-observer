@@ -6,7 +6,7 @@ services:
     image: traefik  # The official Traefik docker image
     command: --api --docker  # Enables the web UI and tells Træfik to listen to docker
     ports:
-      - "80:80"      # The HTTP port
+      - "81:80"      # The HTTP port
       - "8880:8080"  # The Web UI (enabled by --api)
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock  # So that Traefik can listen to the Docker events
@@ -34,7 +34,7 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana/data/grafana.db
     env_file:
-      - grafana.config
+      - z-box-example/conf/grafana/grafana.config
     networks:
       - internal
     ports:
@@ -60,4 +60,4 @@ networks:
 
 volumes:
     prometheus_data:
-    grafana_data	
+    grafana_data:
