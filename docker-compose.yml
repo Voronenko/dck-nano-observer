@@ -25,12 +25,23 @@ services:
   pushgateway:
     image: voronenko/nanoobserver:pushgateway.20180914
     networks:
-      - internal
+      - external
     ports:
       - 9091:9091
     labels:
       - "traefik.frontend.rule=Host:push.docker.localhost"
 
+  nodeexporter:
+    image: voronenko/nanoobserver:nodeexporter.20180914
+    hostname: '{{.Node.ID}}'
+    volumes:
+      - /proc:/usr/proc
+      - /sys:/usr/sys
+      - /:/rootfs
+    networks:
+      - internal
+    ports:
+      - 9100:9100
 
   alertmanager:
     image: voronenko/nanoobserver:alertmanager.20180914
@@ -69,6 +80,7 @@ services:
 
 networks:
   internal:
+  external:
 
 volumes:
     prometheus_data:
