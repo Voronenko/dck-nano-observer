@@ -42,6 +42,25 @@ sudo usermod -aG docker $USER
 sudo pip install docker-compose
 ```
 
+## Reporting metrics to push gateway
+
+```sh
+  echo "some_metric 3.14" | curl --data-binary @- http://pushgateway.example.org:9091/metrics/job/some_job
+```
+
+for local test that would be 
+
+```sh
+  echo "some_metric 3.14" | curl --data-binary @- http://localhost:9091/metrics/job/some_job
+```
+
+
+## Observation of the flow
+
+http://localhost:8880/dashboard/
+
+
+
 
 ## Perversions
 

@@ -4,21 +4,27 @@ services:
 
   reverse-proxy:
     image: traefik  # The official Traefik docker image
-    command: --api --docker  # Enables the web UI and tells Træfik to listen to docker
+    container_name: traefik
+    command: --api --docker --docker.watch --accesslogsfile=/dev/stdout --logLevel=DEBUG  # Enables the web UI and tells Træfik to listen to docker
     ports:
       - "81:80"      # The HTTP port
       - "8880:8080"  # The Web UI (enabled by --api)
     networks:
-      - observer
+      - internal
+      - proxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock  # So that Traefik can listen to the Docker events
+    labels:  
+      - "traefik.frontend.rule=Host:observer.docker.localhost"
+      - "traefik.port=81"
 
   prometheus:
     image: voronenko/nanoobserver:prometheus.20180914
     volumes:
       - prometheus_data:/var/lib/prometheus
     networks:
-      - observer
+      - internal
+      - proxy
     ports:
       - 9090:9090
     labels:
@@ -27,11 +33,16 @@ services:
   pushgateway:
     image: voronenko/nanoobserver:pushgateway.20180914
     networks:
-      - observer
+      - internal
+      - proxy
     ports:
       - 9091:9091
     labels:
-      - "traefik.frontend.rule=Host:push.docker.localhost"
+      - "traefik.enabled=true"
+      - "traefik.backend=pushgateway"
+      - "traefik.docker.network=proxy"
+      - "traefik.frontend.rule=Host:observer.docker.localhost; PathPrefixStrip: /push"
+#      - "traefik.port=9091"
 
   nodeexporter:
     image: voronenko/nanoobserver:nodeexporter.20180914
@@ -41,7 +52,8 @@ services:
       - /sys:/usr/sys
       - /:/rootfs
     networks:
-      - observer
+      - internal
+      - proxy
     cap_add:
       - SYS_TIME
     ports:
@@ -52,7 +64,8 @@ services:
     volumes:    
        - /etc/localtime:/etc/localtime:ro
     networks:
-      - observer
+      - internal
+      - proxy
     ports:
       - 9093:9093
       - 9094:9094
@@ -64,7 +77,8 @@ services:
     env_file:
       - z-box-example/conf/grafana/grafana.config
     networks:
-      - observer
+      - internal
+      - proxy
     ports:
       - 3000:3000
 
@@ -78,12 +92,16 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
-      - observer
+      - internal
+      - proxy
     ports:
       - 8080:8080
 
 networks:
-  observer:
+  proxy:
+    external: true
+  internal:
+    external: false
 
 volumes:
     prometheus_data:
