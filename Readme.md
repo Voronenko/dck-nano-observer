@@ -67,3 +67,8 @@ Thirdparty ideas used:
 Temporary:
 
 - https://hub.docker.com/r/jcollie/openhab-exporter/
+
+
+Further idea:
+
+https://github.com/robustperception/pushprox
