@@ -71,6 +71,14 @@ In order to do so, you need push gateway on prometheus site, and series of regul
 curl -s http://localhost:9100/metrics | curl --data-binary @- http://pushgateway.example.org:9091/metrics/job/some_job/instance/some_instance
 ```
 
+depending on granularity you would like to achieve, perversions might be even deeper.  For example, to get updates more often than once per minute, saying each 15 secs,
+you can use next hack:
+
+```
+* * * * * for i in 0 1 2 3; do curl -s http://localhost:9100/metrics | curl --data-binary @- http://observer.docker.localhost:81/push/metrics/job/node/instance/openhabpi & sleep 15; done; echo "OK"
+* * * * * for i in 0 1 2 3; do curl -s http://localhost:9266/metrics | curl --data-binary @- http://observer.docker.localhost:81/push/metrics/job/openhab/instance/openhabpi & sleep 15; done; echo "OK"
+```
+
 P.S.
 
 Thirdparty ideas used:
